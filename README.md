@@ -30,7 +30,7 @@ def get_participants_info(doi, soup):
     Rule3= re.search(r'[0-9]+\s*(part\w+|patie\w+|infan\w+|su\w+|chi\w+|\w+\s*chi|coupl\w+)',preprocessed_text,  
     flags=re.IGNORECASE)
 
-    Rule4=match3 = re.search(r'([0-9]+\s*(\w+\s*(peop\w+|pers\w+|patie\w+)|(peop\w+|pers 
+    Rule4= re.search(r'([0-9]+\s*(\w+\s*(peop\w+|pers\w+|patie\w+)|(peop\w+|pers 
     \w+)))',preprocessed_text,flags=re.IGNORECASE)
 
     Rule5= re.search(r'(^[0-9]+\s+\w+)', preprocessed_text, flags=re.IGNORECASE)
@@ -68,6 +68,27 @@ def get_participants_info(doi, soup):
 
     groups_match = re.search(r'(^\s?([\w\s]+?)(?:\s((?:%s?patients))))' %('|'.join(groups)),  
     preprocessed_text,flags=re.IGNORECASE)
+    hundreds_match = re.search(r'(^([\w\s]+)\shundred(?:\s(.*?patients)))',
+    preprocessed_text,flags=re.IGNORECASE)
+
+    tens_and_ones_match = re.search(r'(^((?:%s))(?:\s(.*?patients)))' % ('|'.join(tens.keys())),
+    preprocessed_text, flags=re.IGNORECASE)
+
+    if (groups_match):
+      replace_symbol = re.sub("‐", '-', preprocessed_text, flags=re.IGNORECASE)
+      remove_text = re.split('pati\w+', replace_symbol, flags=re.IGNORECASE)
+      number_part = w2n.word_to_num(remove_text[0])
+
+    elif (hundreds_match):
+      replace_symbol = re.sub("‐", '-', preprocessed_text, flags=re.IGNORECASE)
+      remove_text = re.split('pati\w+', replace_symbol, flags=re.IGNORECASE)
+      number_part = w2n.word_to_num(remove_text[0])
+    
+    elif (tens_and_ones_match):
+      replace_symbol = re.sub("‐", '-', preprocessed_text, flags=re.IGNORECASE)
+      remove_text = re.split('pati\w+', replace_symbol, flags=re.IGNORECASE)
+      number_part = w2n.word_to_num(remove_text[0])
+
 
 
 ## Method to extract conclusion 
