@@ -6,6 +6,7 @@ The code uses Cochrane systematic reviews and their updates for automatically ex
 
 
 def get_conclusion(doi, soup):
+
     split_version = doi.split('.')[3]
     if split_version == "pub3":  # .pub3 is update of Cochrane systematic review
     
