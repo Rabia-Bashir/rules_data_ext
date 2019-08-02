@@ -4,15 +4,16 @@ The code uses Cochrane systematic reviews and their updates for automatically ex
 ## Method to extract number of participants 
 def get_conclusion(doi, soup):
 
- The get_participants_info () method uses 13 rules (regular expressions) and their combinations to extract the participants  
- information from all of the included trials from systematic reviews and their updates. Below are the rules for extracting 
- number of participants. For more detail see code in Cochrane_Bot.py.
+    The get_participants_info () method uses 13 rules (regular expressions) and their combinations to extract the participants  
+    information from all of the included trials from systematic reviews and their updates. Below are the rules for extracting 
+    number of participants. For more detail see code in Cochrane_Bot.py.
 
-> participant_column contains participants information
-> pre-processing the text in participant_column to remove extra numeric values (replacing with ‘xx’) given along with  
-  participants information
+    > participant_column contains participants information
+    > pre-processing the text in participant_column to remove extra numeric values (replacing with ‘xx’) given along with  
+      participants information
 
-preprocessed_text_step2 = re.sub(r'((\w+\s{0,1}(=|:)\s{0,1}\d+\s+)*(exclu\w+|withd\w+|screen\w++|(control|treatment|compar\w+)(\s+group)*)(\s{0,1}(:|=)\s{0,1}\d+)*)|([0-9]+\.[0-9]+)|((age)(\s+|:|=)(\d+|\s+\d+))|\d+\s{0,1}‐\s{0,1}\d+|\d+\s+(week|day|month|year)\w{0,1}|(\d+\s+(to)\s+\d+)|(\d+\s+(and)\s+(\d+|\w+))','xx', participant_column, flags=re.IGNORECASE)
+      preprocessed_text_step2 = re.sub(r'((\w+\s{0,1}(=|:)\s{0,1}\d+\s+)*(exclu\w+|withd\w+|screen\w++|(control|treatment|compar    
+      \w+)(\s+group)*)(\s{0,1}(:|=)\s{0,1}\d+)*)|([0-9]+\.[0-9]+)|((age)(\s+|:|=)(\d+|\s+\d+))|\d+\s{0,1}‐\s{0,1}\d+|\d+\s+(week|day|month|year)\w{0,1}|(\d+\s+(to)\s+\d+)|(\d+\s+(and)\s+(\d+|\w+))','xx', participant_column, flags=re.IGNORECASE)
   
 > After pre-processing, developed rules and their combinations were applied
 
