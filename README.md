@@ -204,3 +204,6 @@ def get_conclusion(doi, soup):
                 return (conclusion_text,save_pub_date)
             else:
                 return (0, save_pub_date)
+                
+## Writing the extracted information in csv file
+All features extracted from systematic reviews and their updates will be stored in write_data.csv ()
