@@ -1,8 +1,9 @@
 # Rules for automatically extracting features
 The code uses Cochrane systematic reviews and their updates for automatically extracting the features (number of participants, total number of included trials, search dates and conclusions). For rules (regular expressions) development and web scraping, Pythgon 3.7 and its Beautiful Soup library is used. The figure Steps_AutomaticExtraction.png represents the steps involved in information extraction.
 
-# METHOD TO EXTRACT CONCLUSION FROM SYSTEMATIC REVIEW UPDATES
-# This get_conclusion() method extracts data from Information, History, and What's new sections of updates
+
+# Method to extract conclusion from systematic review updates
+
 
 def get_conclusion(doi, soup):
     split_version = doi.split('.')[3]
