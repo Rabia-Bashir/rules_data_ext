@@ -12,35 +12,39 @@ def get_conclusion(doi, soup):
     # pre-processing the text in participant_column to remove extra numeric values (replacing with ‘xx’) given along with  
     # participants information
 
-      preprocessed_text_step2 = re.sub(r'((\w+\s{0,1}(=|:)\s{0,1}\d+\s+)*(exclu\w+|withd\w+|screen\w++|(control|treatment|compar    
-      \w+)(\s+group)*)(\s{0,1}(:|=)\s{0,1}\d+)*)|([0-9]+\.[0-9]+)|((age)(\s+|:|=)(\d+|\s+\d+))|\d+\s{0,1}‐\s{0,1}\d+|\d+  
-      \s+(week|day|month|year)\w{0,1}|(\d+\s+(to)\s+\d+)|(\d+\s+(and)\s+(\d+|\w+))','xx', participant_column, flags=re.IGNORECASE)
+    preprocessed_text_step2 = re.sub(r'((\w+\s{0,1}(=|:)\s{0,1}\d+\s+)*(exclu\w+|withd\w+|screen\w++|(control|treatment|compar    
+    \w+)(\s+group)*)(\s{0,1}(:|=)\s{0,1}\d+)*)|([0-9]+\.[0-9]+)|((age)(\s+|:|=)(\d+|\s+\d+))|\d+\s{0,1}‐\s{0,1}\d+|\d+  
+    \s+(week|day|month|year)\w{0,1}|(\d+\s+(to)\s+\d+)|(\d+\s+(and)\s+(\d+|\w+))','xx', participant_column, 
+    flags=re.IGNORECASE)
   
-> After pre-processing, developed rules and their combinations were applied
+    After pre-processing, developed rules and their combinations were applied
 
-Rule1= re.search(   r'(sampl\w+\s+(size)(:\s{0,1}|\s{0,1})\d+)|(random\w+:\s{0,1}\d+)($|\s+|\,|\;|\.|[\)])|(total\s+){0,1}(N.|N|No.|numb\w+|parti\w+)\s+(random\w+)\s{0,1}((assign\w+|\w+)\s{0,1}){0,1}(=|:)(\s{0,1}total\s{0,1}:){0,1}\s{0,1}\d+($|\s+|\,|\;|\.|[\)])|(numb\w+)(\s+of parti\w+){0,1}((\s+was){0,1}\s+\d+|\s{0,1}(=|:)\s{0,1}\d+)($|\s+|\,|\;|\.|[\)])|((total\s+){0,1}n\s{0,1}(=|:)\s{0,1}\d+($|\s+|\,|\;|\.|[\)]))',preprocessed_text,flags=re.IGNORECASE)
+    Rule1= re.search(   r'(sampl\w+\s+(size)(:\s{0,1}|\s{0,1})\d+)|(random\w+:\s{0,1}\d+)($|\s+|\,|\;|\.|[\)])|(total\s+){0,1}  
+    (N.|N|No.|numb\w+|parti\w+)\s+(random\w+)\s{0,1}((assign\w+|\w+)\s{0,1}){0,1}(=|:)(\s{0,1}total\s{0,1}:){0,1}\s{0,1}\d+($| 
+    \s+|\,|\;|\.|[\)])|(numb\w+)(\s+of parti\w+){0,1}((\s+was){0,1}\s+\d+|\s{0,1}(=|:)\s{0,1}\d+)($|\s+|\,|\;|\.|[\)])|((total
+    \s+){0,1}n\s{0,1}(=|:)\s{0,1}\d+($|\s+|\,|\;|\.|[\)]))',preprocessed_text,flags=re.IGNORECASE)
 
-Rule2= re.search(   r'(total)*\s+(n)\s+(random\w+)\s{0,1}(:|=)\s{0,1}\d+($|\s+|\,|\;|\.|[\)])',preprocessed_text,flags=re.IGNORECASE)
+    Rule2= re.search(   r'(total)*\s+(n)\s+(random\w+)\s{0,1}(:|=)\s{0,1}\d+($|\s+|\,|\;|\.| 
+    [\)])',preprocessed_text,flags=re.IGNORECASE)
+
+    Rule3= re.search(r'[0-9]+\s*(part\w+|patie\w+|infan\w+|su\w+|chi\w+|\w+\s*chi|coupl\w+)',preprocessed_text,  
+    flags=re.IGNORECASE)
+
+    Rule4=match3 = re.search(r'([0-9]+\s*(\w+\s*(peop\w+|pers\w+|patie\w+)|(peop\w+|pers 
+    \w+)))',preprocessed_text,flags=re.IGNORECASE)
+
+    Rule5= re.search(r'(^[0-9]+\s+\w+)', preprocessed_text,
+    flags=re.IGNORECASE)
+
+    Rule6= re.search(r'\w+\s*\:\s*[\(]\d+[\)]', preprocessed_text,flags=re.IGNORECASE)
+
+    Rule7= re.search(r'((part\w+\s+|patie\w+\s+)[0-9]+)', preprocessed_text,flags=re.IGNORECASE)
 
 
-Rule3= re.search(r'[0-9]+\s*(part\w+|patie\w+|infan\w+|su\w+|chi\w+|\w+\s*chi|coupl\w+)',preprocessed_text, flags=re.IGNORECASE)
+    Rule8= re.search(r'[0-9]+\s+(met\s+\w+)',preprocessed_text,flags=re.IGNORECASE)
 
 
-Rule4=match3 = re.search(r'([0-9]+\s*(\w+\s*(peop\w+|pers\w+|patie\w+)|(peop\w+|pers\w+)))',preprocessed_text,flags=re.IGNORECASE)
-
-
-Rule5= re.search(r'(^[0-9]+\s+\w+)', preprocessed_text,
-flags=re.IGNORECASE)
-
-Rule6= re.search(r'\w+\s*\:\s*[\(]\d+[\)]', preprocessed_text,flags=re.IGNORECASE)
-
-Rule7= re.search(r'((part\w+\s+|patie\w+\s+)[0-9]+)', preprocessed_text,flags=re.IGNORECASE)
-
-
-Rule8= re.search(r'[0-9]+\s+(met\s+\w+)',preprocessed_text,flags=re.IGNORECASE)
-
-
-Rule9= re.search(r'[0-9]+\s+(wom\w+)', preprocessed_text,flags=re.IGNORECASE)
+    Rule9= re.search(r'[0-9]+\s+(wom\w+)', preprocessed_text,flags=re.IGNORECASE)
 
 
 Rule10= re.search(r'[\(]\w+/\w+[\)]:\s{0,1}\d+/\d+', preprocessed_text,flags=re.IGNORECASE)
