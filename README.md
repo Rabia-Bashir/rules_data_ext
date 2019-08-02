@@ -94,9 +94,7 @@ def get_participants_info(doi, soup):
 To extarct the total number of included trials from both systematic reviews (.pub2) and updates (.pub3), 'references' section was scraped using soup.find_all() method. For more detail see code in Cochrane_Bot.py.
 
 ## To extract search dates
-To extarct the search dates, 'abstract' section was scraped using soup.find() method. In some cases, more than one search dates were available, and date formats were different.  not  the first date wad consisently extracted. To extarct dates and matching the date formats, various rules were developed. Only the first available date was consistently extracted. For more detail see code in Cochrane_Bot.py.
-
-3.	Extracted search dates from “Abstract” section
+To extarct the search dates, 'abstract' section was scraped using soup.find() method. In some cases, more than one search dates were available, and date formats were different.  not  the first date wad consisently extracted. To extarct dates and matching the date formats, various rules were developed. Only the first available date was consistently extracted. For more detail see code under Read_Html_Contents () method in Cochrane_Bot.py.
 
 ## Method to extract conclusion 
 def get_conclusion(doi, soup):
