@@ -92,11 +92,10 @@ def get_participants_info(doi, soup):
 
 
 ## Method to extract conclusion 
-
-
-
 def get_conclusion(doi, soup):
-
+    # The get_conclusion() method access 'information', 'history' and 'what's new' sections of systematic review update (.pub3) 
+    # to finally extract the conclusion
+    
     split_version = doi.split('.')[3]
     if split_version == "pub3":  # .pub3 is update of Cochrane systematic review
     
