@@ -1,5 +1,5 @@
 # Rules for automatically extracting features
-The code uses Cochrane systematic reviews (.pub2) and their updates (.pub3) for automatically extracting the features (number of participants, total number of included trials, search dates and conclusions). For rules (regular expressions) development and web scraping, Pythgon 3.7 and its Beautiful Soup library is used. The figure Steps_AutomaticExtraction.png represents the steps involved in information extraction. The code uses DOIs of systematic reviews and their updates to send request to Cochrane library. All DOIs and PubMed IDs of systematic reviews and their updates are stored in DOI.csv file and code matches the DOIs for requesting the systematic reviews (.pub2) and their linked first updates (.pub3). After requesting, these are then stored in a folder named HTML_SystematicReviews before starting the feature extraction process. This saves time to request for same web pages on running the code again. Therefore, each time this folder is checked prior to requesting the server.
+The code uses Cochrane systematic reviews (.pub2) and their updates (.pub3) for automatically extracting the features (number of participants, total number of included trials, search dates and conclusions). For rules (regular expressions) development and web scraping, Pythgon 3.7 and its Beautiful Soup library is used. The figure Steps_AutomaticExtraction.png represents the steps involved in information extraction. The code uses DOIs of systematic reviews and their updates to send request to Cochrane library. All DOIs and PubMed IDs of systematic reviews and their updates are stored in DOI.csv file and code matches the DOIs for requesting the systematic reviews (.pub2) and their linked first updates (.pub3). After requesting, these are then stored in a folder 'HTML_SystematicReviews' before starting the feature extraction process. This saves time to request for same web pages on running the code again. Therefore, each time this folder is checked prior to requesting the server.
 
 ## Method to extract number of participants 
 def get_participants_info(doi, soup):
@@ -92,6 +92,11 @@ def get_participants_info(doi, soup):
       
 ## To extract total number of included trials
 To extarct the total number of included trials from both systematic reviews (.pub2) and updates (.pub3), 'references' section was scraped using soup.find_all() method. For more detail see code in Cochrane_Bot.py.
+
+## To extract search dates
+To extarct the search dates, 'abstract' section was scraped using soup.find() method. In some cases, more than one search dates were available, and date formats were different.  not  the first date wad consisently extracted. To extarct dates and matching the date formats, various rules were developed. Only the first available date was consistently extracted. For more detail see code in Cochrane_Bot.py.
+
+3.	Extracted search dates from “Abstract” section
 
 ## Method to extract conclusion 
 def get_conclusion(doi, soup):
@@ -204,6 +209,12 @@ def get_conclusion(doi, soup):
                 return (conclusion_text,save_pub_date)
             else:
                 return (0, save_pub_date)
-                
+ 
+ ## Method to save systematic reviews and their updates 
+ def Save_Html_Contents(doi, SR_IDs):  
+ 
+    This method Save_Html_Contents () saves systematic reviews and their updates in folder 'HTML_SystematicReviews'. Each  
+    requested systematic review and its update is named on PubMed ID. For more detail see method in Cochrane_Bot.py.  
+    
 ## Writing the extracted information in csv file
-All features extracted from systematic reviews and their updates will be stored in write_data.csv ()
+All features extracted from systematic reviews and their updates will be written in write_data.csv ()
