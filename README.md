@@ -4,6 +4,7 @@ The code uses Cochrane systematic reviews and their updates for automatically ex
 ## Method to extract number of participants 
 def get_participants_info(doi, soup):
 
+
     # The get_participants_info () method uses 13 rules (regular expressions) and their combinations to extract the participants  
     # information from all of the included trials from systematic reviews and their updates. Below are the rules for extracting 
     # number of participants. For more detail see code in Cochrane_Bot.py.
