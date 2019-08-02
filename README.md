@@ -1,9 +1,12 @@
 # Rules for automatically extracting features
 The code uses Cochrane systematic reviews and their updates for automatically extracting the features (number of participants, total number of included trials, search dates and conclusions). For rules (regular expressions) development and web scraping, Pythgon 3.7 and its Beautiful Soup library is used. The figure Steps_AutomaticExtraction.png represents the steps involved in information extraction.
 
-# Method to extract number of participants 
+## Method to extract number of participants 
+def get_conclusion(doi, soup):
 
-The get_participants_info () method uses 13 rules (regular expressions) and their combinations to extract the participants information from all of the included trials from systematic reviews and their updates. Below are the rules for extracting number of participants. For more detail see code in Cochrane_Bot.py.
+ The get_participants_info () method uses 13 rules (regular expressions) and their combinations to extract the participants  
+ information from all of the included trials from systematic reviews and their updates. Below are the rules for extracting 
+ number of participants. For more detail see code in Cochrane_Bot.py.
 
 > participant_column contains participants information
 > pre-processing the text in participant_column to remove extra numeric values (replacing with ‘xx’) given along with  
@@ -68,7 +71,7 @@ groups_match = re.search(r'(^\s?([\w\s]+?)(?:\s((?:%s?patients))))' %
 ('|'.join(groups)), preprocessed_text,flags=re.IGNORECASE)
 
 
-# Method to extract conclusion from systematic review updates
+## Method to extract conclusion 
 
 
 
