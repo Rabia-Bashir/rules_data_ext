@@ -1,8 +1,75 @@
 # Rules for automatically extracting features
 The code uses Cochrane systematic reviews and their updates for automatically extracting the features (number of participants, total number of included trials, search dates and conclusions). For rules (regular expressions) development and web scraping, Pythgon 3.7 and its Beautiful Soup library is used. The figure Steps_AutomaticExtraction.png represents the steps involved in information extraction.
 
+# Method to extract number of participants 
+
+The get_participants_info () method uses 13 rules (regular expressions) and their combinations to extract the participants information from all of the included trials from systematic reviews and their updates. Below are the rules for extracting number of participants. For more detail see code in Cochrane_Bot.py.
+
+> participant_column contains participants information
+> pre-processing the text in participant_column to remove extra numeric values (replacing with ‘xx’) given along with  
+  participants information
+
+preprocessed_text_step2 = re.sub(r'((\w+\s{0,1}(=|:)\s{0,1}\d+\s+)*(exclu\w+|withd\w+|screen\w++|(control|treatment|compar\w+)(\s+group)*)(\s{0,1}(:|=)\s{0,1}\d+)*)|([0-9]+\.[0-9]+)|((age)(\s+|:|=)(\d+|\s+\d+))|\d+\s{0,1}‐\s{0,1}\d+|\d+\s+(week|day|month|year)\w{0,1}|(\d+\s+(to)\s+\d+)|(\d+\s+(and)\s+(\d+|\w+))','xx', participant_column, flags=re.IGNORECASE)
+  
+> After pre-processing, developed rules and their combinations were applied
+
+Rule1= re.search(   r'(sampl\w+\s+(size)(:\s{0,1}|\s{0,1})\d+)|(random\w+:\s{0,1}\d+)($|\s+|\,|\;|\.|[\)])|(total\s+){0,1}(N.|N|No.|numb\w+|parti\w+)\s+(random\w+)\s{0,1}((assign\w+|\w+)\s{0,1}){0,1}(=|:)(\s{0,1}total\s{0,1}:){0,1}\s{0,1}\d+($|\s+|\,|\;|\.|[\)])|(numb\w+)(\s+of parti\w+){0,1}((\s+was){0,1}\s+\d+|\s{0,1}(=|:)\s{0,1}\d+)($|\s+|\,|\;|\.|[\)])|((total\s+){0,1}n\s{0,1}(=|:)\s{0,1}\d+($|\s+|\,|\;|\.|[\)]))',preprocessed_text,flags=re.IGNORECASE)
+
+Rule2= re.search(   r'(total)*\s+(n)\s+(random\w+)\s{0,1}(:|=)\s{0,1}\d+($|\s+|\,|\;|\.|[\)])',preprocessed_text,flags=re.IGNORECASE)
+
+
+Rule3= re.search(r'[0-9]+\s*(part\w+|patie\w+|infan\w+|su\w+|chi\w+|\w+\s*chi|coupl\w+)',preprocessed_text, flags=re.IGNORECASE)
+
+
+Rule4=match3 = re.search(r'([0-9]+\s*(\w+\s*(peop\w+|pers\w+|patie\w+)|(peop\w+|pers\w+)))',preprocessed_text,flags=re.IGNORECASE)
+
+
+Rule5= re.search(r'(^[0-9]+\s+\w+)', preprocessed_text,
+flags=re.IGNORECASE)
+
+Rule6= re.search(r'\w+\s*\:\s*[\(]\d+[\)]', preprocessed_text,flags=re.IGNORECASE)
+
+Rule7= re.search(r'((part\w+\s+|patie\w+\s+)[0-9]+)', preprocessed_text,flags=re.IGNORECASE)
+
+
+Rule8= re.search(r'[0-9]+\s+(met\s+\w+)',preprocessed_text,flags=re.IGNORECASE)
+
+
+Rule9= re.search(r'[0-9]+\s+(wom\w+)', preprocessed_text,flags=re.IGNORECASE)
+
+
+Rule10= re.search(r'[\(]\w+/\w+[\)]:\s{0,1}\d+/\d+', preprocessed_text,flags=re.IGNORECASE)
+
+
+Rule11= re.search(
+r'(\d+\s+(men)((,|\s+)(\s+|and)(\s+)*(\d+)*(\s+)*(wom\w+)))',preprocessed_text,flags=re.IGNORECASE)
+
+
+Rule12= re.search(r'(partic\w+(:|=)\s{0,1}\d+)', preprocessed_text,flags=re.IGNORECASE)
+
+
+Rule13 for extracting participant information provided in number words and converting into numeric digits
+
+ones = {'one': 1, 'eleven': 11,
+        'two': 2, 'twelve': 12,
+        'three': 3, 'thirteen': 13,
+        'four': 4, 'fourteen': 14,
+        'five': 5, 'fifteen': 15,
+        'six': 6, 'sixteen': 16,
+        'seven': 7, 'seventeen': 17,
+        'eight': 8, 'eighteen': 18,
+        'nine': 9, 'nineteen': 19}
+
+tens = {'ten': 10, 'twenty': 20, 'thirty': 30, 'forty': 40, 'fifty': 50,'sixty': 60, 'seventy': 70, 'eighty': 80, 'ninety': 90}
+
+groups = {'thousand': 1000, 'million': 1000000, 'billion': 1000000000, 'trillion': 1000000000000}
+
+groups_match = re.search(r'(^\s?([\w\s]+?)(?:\s((?:%s?patients))))' %
+('|'.join(groups)), preprocessed_text,flags=re.IGNORECASE)
+
 
 # Method to extract conclusion from systematic review updates
+
 
 
 def get_conclusion(doi, soup):
