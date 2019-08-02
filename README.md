@@ -4,9 +4,9 @@ The code uses Cochrane systematic reviews and their updates for automatically ex
 ## Method to extract number of participants 
 def get_conclusion(doi, soup):
 
-    The get_participants_info () method uses 13 rules (regular expressions) and their combinations to extract the participants  
-    information from all of the included trials from systematic reviews and their updates. Below are the rules for extracting 
-    number of participants. For more detail see code in Cochrane_Bot.py.
+    # The get_participants_info () method uses 13 rules (regular expressions) and their combinations to extract the participants  
+    # information from all of the included trials from systematic reviews and their updates. Below are the rules for extracting 
+    # number of participants. For more detail see code in Cochrane_Bot.py.
 
     # participant_column contains participants information
     # pre-processing the text in participant_column to remove extra numeric values (replacing with ‘xx’) given along with  
@@ -33,33 +33,25 @@ def get_conclusion(doi, soup):
     Rule4=match3 = re.search(r'([0-9]+\s*(\w+\s*(peop\w+|pers\w+|patie\w+)|(peop\w+|pers 
     \w+)))',preprocessed_text,flags=re.IGNORECASE)
 
-    Rule5= re.search(r'(^[0-9]+\s+\w+)', preprocessed_text,
-    flags=re.IGNORECASE)
+    Rule5= re.search(r'(^[0-9]+\s+\w+)', preprocessed_text, flags=re.IGNORECASE)
 
     Rule6= re.search(r'\w+\s*\:\s*[\(]\d+[\)]', preprocessed_text,flags=re.IGNORECASE)
 
     Rule7= re.search(r'((part\w+\s+|patie\w+\s+)[0-9]+)', preprocessed_text,flags=re.IGNORECASE)
 
-
     Rule8= re.search(r'[0-9]+\s+(met\s+\w+)',preprocessed_text,flags=re.IGNORECASE)
-
 
     Rule9= re.search(r'[0-9]+\s+(wom\w+)', preprocessed_text,flags=re.IGNORECASE)
 
+    Rule10= re.search(r'[\(]\w+/\w+[\)]:\s{0,1}\d+/\d+', preprocessed_text,flags=re.IGNORECASE)
 
-Rule10= re.search(r'[\(]\w+/\w+[\)]:\s{0,1}\d+/\d+', preprocessed_text,flags=re.IGNORECASE)
+    Rule11= re.search(r'(\d+\s+(men)((,|\s+)(\s+|and)(\s+)*(\d+)*(\s+)*(wom\w+)))',preprocessed_text,flags=re.IGNORECASE)
 
+    Rule12= re.search(r'(partic\w+(:|=)\s{0,1}\d+)', preprocessed_text,flags=re.IGNORECASE)
 
-Rule11= re.search(
-r'(\d+\s+(men)((,|\s+)(\s+|and)(\s+)*(\d+)*(\s+)*(wom\w+)))',preprocessed_text,flags=re.IGNORECASE)
+    Rule13 for extracting participant information provided in number words and converting into numeric digits
 
-
-Rule12= re.search(r'(partic\w+(:|=)\s{0,1}\d+)', preprocessed_text,flags=re.IGNORECASE)
-
-
-Rule13 for extracting participant information provided in number words and converting into numeric digits
-
-ones = {'one': 1, 'eleven': 11,
+    ones = {'one': 1, 'eleven': 11,
         'two': 2, 'twelve': 12,
         'three': 3, 'thirteen': 13,
         'four': 4, 'fourteen': 14,
@@ -69,12 +61,13 @@ ones = {'one': 1, 'eleven': 11,
         'eight': 8, 'eighteen': 18,
         'nine': 9, 'nineteen': 19}
 
-tens = {'ten': 10, 'twenty': 20, 'thirty': 30, 'forty': 40, 'fifty': 50,'sixty': 60, 'seventy': 70, 'eighty': 80, 'ninety': 90}
+    tens = {'ten': 10, 'twenty': 20, 'thirty': 30, 'forty': 40, 'fifty': 50,'sixty': 60, 'seventy': 70, 'eighty': 80, 'ninety':  
+    90}
 
-groups = {'thousand': 1000, 'million': 1000000, 'billion': 1000000000, 'trillion': 1000000000000}
+    groups = {'thousand': 1000, 'million': 1000000, 'billion': 1000000000, 'trillion': 1000000000000}
 
-groups_match = re.search(r'(^\s?([\w\s]+?)(?:\s((?:%s?patients))))' %
-('|'.join(groups)), preprocessed_text,flags=re.IGNORECASE)
+    groups_match = re.search(r'(^\s?([\w\s]+?)(?:\s((?:%s?patients))))' %('|'.join(groups)),  
+    preprocessed_text,flags=re.IGNORECASE)
 
 
 ## Method to extract conclusion 
