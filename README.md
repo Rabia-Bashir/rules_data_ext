@@ -89,8 +89,9 @@ def get_participants_info(doi, soup):
       replace_symbol = re.sub("‐", '-', preprocessed_text, flags=re.IGNORECASE)
       remove_text = re.split('pati\w+', replace_symbol, flags=re.IGNORECASE)
       number_part = w2n.word_to_num(remove_text[0])
-
-
+      
+## To extract total number of included trials
+To extarct the total number of included trials from both systematic reviews (.pub2) and updates (.pub3), 'references' section was scraped using soup.find_all() method. For more detail see code in Cochrane_Bot.py.
 
 ## Method to extract conclusion 
 def get_conclusion(doi, soup):
@@ -152,7 +153,7 @@ def get_conclusion(doi, soup):
             if re.search(r'conclu\w+\s+.*?\s{2}', i, flags=re.IGNORECASE):
                 list_con.append(i)
         print(list_con)
-        #
+        
         for con in list_con:
             # extract only those discussing about conclusion (changed or not)
             extract_only_conclusion = re.search(r'conclu\w+\s+.*?\s{2}', con,
