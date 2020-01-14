@@ -1,0 +1,9 @@
+
+
+Version dependencies
+
+scikit-learn==0.20.3
+beautifulsoup==4.6.0
+matplotlib==3.0.3
+numpy==1.16.2
+requests==2.18
